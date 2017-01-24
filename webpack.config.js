@@ -4,17 +4,23 @@ module.exports = {
     output: {
         filename : 'bundle.js'
     },
-    module: {preLoaders: [
+    module: {
+        preLoaders: [
         {
             test: /\.js$/,
             exclude: /node_modules/,
             loader: 'jshint-loader'
 
+        },
+        {
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            loader: 'eslint-loader'
         }
     ],
         loaders: [
             {
-                test: /\.js$/,
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 query: {
