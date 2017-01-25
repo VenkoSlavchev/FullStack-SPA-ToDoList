@@ -43,3 +43,16 @@ server.register([{
         console.log('Server listening at:', server.info.uri);
     });
 });
+
+server.route([{
+    method:'GET',
+    path: '/api/comments',
+    handler: function (request, reply) {
+        fs.readFile(COMMENTS_FILE, function (err, data) {
+            if(err){
+                throw err;
+            }
+            reply(JSON.parse(data))
+        })
+    }
+}]);

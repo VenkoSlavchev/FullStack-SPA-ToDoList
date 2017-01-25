@@ -4,7 +4,11 @@ import React from 'react';
 let CommentsForm = React.createClass({
     render: function () {
         return (
-            <div className="commentsForm"> I am comments form.</div>
+            <form className="commentsForm">
+                <input type="text" placeholder="Your name"/>
+                <input type="text" placeholder="Say something"/>
+                <input type="submit" value="Post"/>
+            </form>
         )
     }
 });
