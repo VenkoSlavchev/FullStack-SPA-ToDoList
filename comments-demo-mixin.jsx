@@ -9,17 +9,17 @@ import SetIntervalMixin from './set-interval-mixin'
 
 /*Comment-box demo*/
 
-class CommentBox extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {data: []};
-        this.mixins = [SetIntervalMixin];
-        this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
-        this.refreshComments = this.refreshComments.bind(this);
-        this.componentDidMount = this.componentDidMount.bind(this);
+let CommentBox = React.createClass({
+    propTypes : {
+        url: React.PropTypes.string.isRequired,
+        pollInterval: React.PropTypes.number,
 
-    }
-    refreshComments(){
+    },
+    mixins: [SetIntervalMixin],
+    getInitialState : function () {
+      return {data: []}
+    },
+    refreshComments: function(){
         $.ajax({
             method: 'GET',
             url: this.props.url,
@@ -30,14 +30,11 @@ class CommentBox extends React.Component{
         }).fail((xhr, status, err) => {
             console.error(this.props.url, status, err.toString());
         })
-    }
-    componentDidMount() {
-        this.interval = setInterval(() => this.refreshComments(), this.props.pollInterval);
-    }
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
-    handleCommentSubmit(comment) {
+    },
+    componentDidMount: function () {
+     this.setInterval(this.refreshComments, this.props.pollInterval)
+    },
+    handleCommentSubmit: function (comment) {
         $.ajax({
             method: 'POST',
             url: this.props.url,
@@ -49,25 +46,20 @@ class CommentBox extends React.Component{
         }).fail((xhr, status, err) => {
             console.error(this.props.url, status, err.toString());
         })
-    }
-    render() {
+    },
+    render: function() {
         return (
             <div className="commentBox">
-                <h1>Comments Demo</h1>
+            <h1>Comments Demo</h1>
                 <CommentsList data={this.state.data} />
                 <CommentsForm onCommentsSubmit={this.handleCommentSubmit}/>
             </div>
         )
     }
 
-}
+});
 
-CommentBox.propTypes = {
-    url: React.PropTypes.string.isRequired,
-    pollInterval: React.PropTypes.number,
-
-};
 
 
 ReactDOM.render(<CommentBox url="/api/comments" pollInterval={10000}/>,
-    document.getElementById('container'));
+document.getElementById('container'));
