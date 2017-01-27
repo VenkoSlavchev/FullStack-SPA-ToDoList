@@ -17,7 +17,7 @@ class CommentBox extends React.Component{
         this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
         this.refreshComments = this.refreshComments.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
-
+        this.handleDeleteComment= this.componentDidMount.bind(this);
     }
     refreshComments(){
         $.ajax({
@@ -50,11 +50,23 @@ class CommentBox extends React.Component{
             console.error(this.props.url, status, err.toString());
         })
     }
+    handleDeleteComment(id){
+        $.ajax({
+            method: 'DELETE',
+            url: this.props.url + '/' + id,
+            dataType: 'json',
+            cache: false
+        }).done((data) => {
+            this.setState({data: data})
+        }).fail((xhr, status, err) => {
+            console.error(this.props.url, status, err.toString());
+        })
+    }
     render() {
         return (
             <div className="commentBox">
                 <h1>Comments Demo</h1>
-                <CommentsList data={this.state.data} />
+                <CommentsList data={this.state.data} id={this.handleDeleteComment} />
                 <CommentsForm onCommentsSubmit={this.handleCommentSubmit}/>
             </div>
         )

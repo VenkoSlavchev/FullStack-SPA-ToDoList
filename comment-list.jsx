@@ -7,18 +7,23 @@ import Comment from './comment';
 /*Comment-list component demo*/
 class CommentList extends React.Component{
     constructor (props){
-       super(props)
+       super(props);
+        this.handleDelete = this.handleDelete.bind(this);
+    }
+    handleDelete(id){
+        this.props.id = id;
     }
     render() {
         let commentNodes = this.props.data.map((comment)=>{
             return (
-                <Comment author={comment.author} key={comment.id}>
+                <Comment author={comment.author} key={comment.id}
+                         onDelete={this.handleDelete}>
                     {comment.text}
                 </Comment>
             )
         });
         return (
-            <div className="commentsList"> I am comments list.
+            <div className="commentsList" > I am comments list.
                 {commentNodes}
             </div>
         )

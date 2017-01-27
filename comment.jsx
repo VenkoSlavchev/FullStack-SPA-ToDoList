@@ -7,6 +7,7 @@ import Remarkable from 'remarkable';
 export default class Comment extends React.Component{
     constructor(props){
         super(props);
+        this.handleDeleteButton = this.handleDeleteButton.bind(this);
     }
     rawMarkup(){
         let md = new Remarkable();
@@ -15,11 +16,16 @@ export default class Comment extends React.Component{
             __html: rawMarkup
         }
     }
+    handleDeleteButton(){
+       let deleteId = this.props.key;
+       this.props.onDelete = {delId : deleteId}
+    }
     render() {
         return (
             <div className="comment">
                 <h2 className="commentAuthor">{this.props.author}</h2>
                 <span dangerouslySetInnerHTML={this.rawMarkup()}>{}</span>
+                <input type="button" value='Delete' onClick={this.handleDeleteButton}/>
             </div>
         )
     }
@@ -27,5 +33,6 @@ export default class Comment extends React.Component{
 
 Comment.propTypes = {
         author: React.PropTypes.string.isRequired,
-        children: React.PropTypes.node.isRequired
+        children: React.PropTypes.node.isRequired,
+        key:React.PropTypes.string.isRequired
 };
