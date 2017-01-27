@@ -8,16 +8,12 @@ import Comment from './comment';
 class CommentList extends React.Component{
     constructor (props){
        super(props);
-        this.handleDelete = this.handleDelete.bind(this);
-    }
-    handleDelete(id){
-        this.props.id = id;
     }
     render() {
         let commentNodes = this.props.data.map((comment)=>{
             return (
                 <Comment author={comment.author} key={comment.id}
-                         onDelete={this.handleDelete}>
+                         commentId={comment.id} onCommentDelete={this.props.onCommentDelete}>
                     {comment.text}
                 </Comment>
             )
@@ -37,6 +33,7 @@ data: React.PropTypes.arrayOf(
         author:React.PropTypes.string,
         text: React.PropTypes.string
     })
-)
+),
+    onCommentDelete:React.PropTypes.func
 };
 export default CommentList;

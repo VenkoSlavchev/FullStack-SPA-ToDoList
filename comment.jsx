@@ -17,8 +17,11 @@ export default class Comment extends React.Component{
         }
     }
     handleDeleteButton(){
-       let deleteId = this.props.key;
-       this.props.onDelete = {delId : deleteId}
+       let deleteId = this.props.commentId;
+       if(deleteId){
+           this.props.onCommentDelete(deleteId)
+       }
+
     }
     render() {
         return (
@@ -34,5 +37,6 @@ export default class Comment extends React.Component{
 Comment.propTypes = {
         author: React.PropTypes.string.isRequired,
         children: React.PropTypes.node.isRequired,
-        key:React.PropTypes.string.isRequired
+        commentId:React.PropTypes.number.isRequired,
+        onCommentDelete:React.PropTypes.func
 };
