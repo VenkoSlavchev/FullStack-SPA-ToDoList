@@ -1,2 +1,2 @@
 'use strict';
-import './comments-demo';
+import './to-do-list';
