@@ -18,7 +18,7 @@ export default class Task extends React.Component{
     render() {
         return (
                 <li className="task-sections" data-id={this.props.taskId} data-completed={this.props.taskCompleted}>
-                    <img className="task-icon"/>
+                    <img className="task-icon" src="/public/images/Record-2-icon.png"/>
                     <span className="task-text">{this.props.taskMessage}</span>
                     <a className="delete-task-button" onClick={this.handleDeleteButton} href="#">X</a>
                 </li>

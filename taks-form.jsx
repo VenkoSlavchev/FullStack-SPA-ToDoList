@@ -17,7 +17,7 @@ export default class TaskForm extends React.Component{
     render() {
         return (
             <div className="input-section">
-                <span className="input-area-icon">˅</span>
+                <span className="input-area-icon"><img src="/public/images/Arrow-Down-icon.png"/></span>
                 <input type="text" className="input-area" placeholder='What needs to be done?' onKeyDown={this.handleCreateTask}/>
             </div>
         )
