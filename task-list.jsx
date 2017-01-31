@@ -13,7 +13,8 @@ class TaskList extends React.Component{
             return (
                 <Task key={task.id} taskId={task.id}
                       taskMessage={task.message} taskCompleted={task.completed}
-                      onCommentDelete={this.props.onCommentDelete}>
+                      onCommentDelete={this.props.onCommentDelete}
+                      onTaskComplete={this.props.onTaskComplete} >
                 </Task>
             )
         });
@@ -34,6 +35,6 @@ TaskList.propTypes = {
         })
     ),
     onCommentDelete:React.PropTypes.func,
-
+    onTaskComplete:React.PropTypes.func
 };
 export default TaskList;

@@ -9,7 +9,7 @@ export default class TaskForm extends React.Component{
         this.handleCreateTask = this.handleCreateTask.bind(this);
     }
     handleCreateTask(e){
-        if(e.keyCode == 13){
+        if(e.keyCode == 13 && e.target.value!== ''){
             this.props.onTaskSubmit({message: e.target.value});
             e.target.value='';
         }
@@ -17,7 +17,7 @@ export default class TaskForm extends React.Component{
     render() {
         return (
             <div className="input-section">
-                <span className="input-area-icon"><img src="/public/images/Arrow-Down-icon.png"/></span>
+                <img className="input-area-icon" src="/public/images/arrow-down-gray.png" onClick={this.handleCreateTask}/>
                 <input type="text" className="input-area" placeholder='What needs to be done?' onKeyDown={this.handleCreateTask}/>
             </div>
         )

@@ -1,4 +1,5 @@
 /*Layout styles*/
+
 * {
     margin: 0;
     padding: 0;
@@ -6,75 +7,123 @@
 }
 body {
     font-family: arial, helvetica, sans-serif;
-    background: #1E1E20;
-    color: #D9CB9E;
+    background: white;
+    color: rgb(60,60,60);
     padding: 20px;
 }
 
-header {
-    margin-bottom: 20px;
-    border: 1px solid white;
-    text-align: center;
-    width: 550px;
-}
-
-footer {
-    text-align: center;
-    border: 1px solid white;
-    width: 550px;
-}
-.sections {
-    margin-bottom: 20px;
-    border: 1px solid white;
-}
 .main-section {
     width: 550px;
+    border: 1px solid rgb(200,200,200);
 }
 
 .input-section {
-    border: 1px solid white;
+    border-bottom: 1px solid rgb(200,200,200);
     width: 100%;
-    height: 43px;
-}
-.task-sections{
-    border: 1px solid white;
-    width: 100%;
-    height: 43px;
-    vertical-align: middle;
-    padding: 11px 0 10px 35px;
+    height: 45px;
 }
 
 .filter-section{
-    padding: 10px;
+    padding: 5px 0 0 10px;
+    height: 35px;
+    font-size: 14px;
+    color: rgb(120,120,120);
 }
 .input-area-icon {
-    font-size: x-large;
     vertical-align: middle;
     padding: 5px;
+    height: 30px;
+    margin: 0 5px;
+    opacity: 0.5;
 }
 .input-area {
+    color: rgb(60,60,60);
     font-family: arial, helvetica, sans-serif;
+    font-style: italic;
     resize: none;
-    width: 94.7%;
-    height: 40px;
-    font-size:15px;
+    width: 92.3%;
+    height: 44px;
+    font-size:19px;
     vertical-align: middle;
     padding: 9px 0 9px 5px;
+    border: none;
+    outline: none;
 }
 .task-counter-field{
-    margin-right: 65px;
+    margin-right: 110px;
+    font-size: 14px;
 }
 .buttons{
     margin-right: 7px;
     border: none;
     padding: 4px;
     border-radius: 3px;
+    font-size: 14px;
+    background-color: transparent;
+    color:inherit;
+    outline: none;
 }
-.delete-task-button {
-    float: right;
-    margin-right: 10px;
-    text-decoration: none;
+
+.buttons:focus{
+    border: 1px solid rgb(120,120,120);;
 }
+
 .list-of-tasks {
     list-style-type: none;
 }
+.task-sections{
+    border-bottom: 1px solid rgb(200,200,200);
+    width: 100%;
+    height: 45px;
+    padding: 5px;
+    position:relative;
+}
+.task-icon{
+    margin-right: 10px;
+    background-image: url("/public/images/empty-circle.png");
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    opacity: 0.2;
+}
+.task-text{
+    font-size:19px;
+    position: absolute;
+    top: 25%;
+}
+.delete-task-button {
+    font-family: "MS PGothic", sans-serif;
+    margin-right: 10px;
+    text-decoration: none;
+    font-size:18px;
+    position: absolute;
+    top: 25%;
+    right: 1%;
+    color: red;
+    height: 15px;
+}
+
+.task-sections[data-completed*="true"]{
+    color: rgb(200,200,200);
+}
+.task-sections[data-completed*="true"] span {
+    text-decoration: line-through;
+}
+.task-sections[data-completed*="true"] div {
+    background-image: url("/public/images/marked-circle.png");
+    opacity: 1;
+}
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: rgb(200,200,200);
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: rgb(200,200,200);
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: rgb(200,200,200);
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgb(200,200,200);
+}
+
+

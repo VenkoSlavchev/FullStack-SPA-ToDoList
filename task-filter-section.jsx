@@ -6,41 +6,28 @@ import $ from 'jquery';
 export default class TaskFilterSection extends React.Component{
     constructor(props){
         super(props);
+        this.filterTasks = this.filterTasks.bind(this);
     }
     static calculateUncompletedTasks(){
         return $("ul").find("[data-completed=false]").length
     }
-    static filterTasks(e){
+   filterTasks(e){
         let buttonValue = e.target.value;
-        const completedTasks = $("ul").find("[data-completed=true]");
-        const uncompletedTasks = $("ul").find("[data-completed=false]");
-        switch (buttonValue){
-            case 'Active':
-                uncompletedTasks.show();
-                completedTasks.hide();
-                break;
-            case 'Completed':
-                uncompletedTasks.hide();
-                completedTasks.show();
-                break;
-            case 'All':
-                uncompletedTasks.show();
-                completedTasks.show();
-                break;
-        }
-    }
+        this.props.onFilterTasks(buttonValue)
+   }
+
     render() {
         return (
             <div className="sections filter-section">
                 <span className="task-counter-field" >{TaskFilterSection.calculateUncompletedTasks()} items left</span>
-                <input className="buttons" type="button" value="All" onClick={TaskFilterSection.filterTasks}/>
-                <input className="buttons" type="button" value="Active" onClick={TaskFilterSection.filterTasks}/>
-                <input className="buttons" type="button" value="Completed" onClick={TaskFilterSection.filterTasks}/>
+                <input className="buttons" type="button" value="All" onClick={this.filterTasks}/>
+                <input className="buttons" type="button" value="Active" onClick={this.filterTasks}/>
+                <input className="buttons" type="button" value="Completed" onClick={this.filterTasks}/>
             </div>
         )
     }
 }
-
 TaskFilterSection.propTypes = {
-
+    onFilterTasks:React.PropTypes.func
 };
+
