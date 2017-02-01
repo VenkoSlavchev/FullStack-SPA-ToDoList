@@ -20,7 +20,7 @@ exports.createTask = function (request, reply) {
             request.payload.message,
             'false'
         ],
-        (err) => {
+        function(err) {
             if (err) {
                 throw err;
             }
