@@ -1,5 +1,5 @@
 'use strict';
-
+//Routes are validated through Joi object available on Hapi
 const Joi = require('joi');
 const Tasks = require('./handlers/tasks');
 
@@ -7,8 +7,7 @@ module.exports = [{
     method: 'GET',
     path: '/api/tasks',
     handler: Tasks.getTasks
-},
-    {
+    }, {
         method: 'POST',
         path: '/api/tasks',
         config: {

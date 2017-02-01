@@ -1,119 +1,128 @@
 "use strict";
-
+//To Do List is main Component that gathers all the parts. It's role is to keep the state
+// and to do the main work in the application. It only parses the data that is needed to his own components
+// and keep them stateless in order for the best practices and keeping them clean and simple.
+// Here are made the ajax requests and the filtering
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TaskList from './task-list';
-import TaskForm from './taks-form';
+import TaskList from './task-list-section';
+import TaskForm from './taks-form-section';
 import TaskFilterSection from './task-filter-section';
 import $ from 'jquery';
 
 
-class TaskBox extends React.Component{
-    constructor(props){
+class TaskBox extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
             data: [],
-            filterValue:''
+            filterValue: ''
         };
-         this.handleTaskSubmit = this.handleTaskSubmit.bind(this);
-         this.loadTasksFromServer = this.loadTasksFromServer.bind(this);
-         this.handleDeleteTasks= this.handleDeleteTasks.bind(this);
-         this.handleTaskComplete= this.handleTaskComplete.bind(this);
-         this.filterTasks =  this.filterTasks.bind(this);
+        //bind all the methods here because it is good practice and in order to use the context
+        // of the class inside of it's methods
+        this.handleTaskSubmit = this.handleTaskSubmit.bind(this);
+        this.loadTasksFromServer = this.loadTasksFromServer.bind(this);
+        this.handleTaskDelete = this.handleTaskDelete.bind(this);
+        this.handleTaskComplete = this.handleTaskComplete.bind(this);
+        this.tasksFilter = this.tasksFilter.bind(this);
     }
+
     loadTasksFromServer() {
-    $.ajax({
-        method:'GET',
-        url: this.props.url,
-        dataType: 'json',
-        cache: false,
-        success: function (data) {
-            this.setState({ data: data });
-            this.filterTasks(this.state.filterValue);
-        }.bind(this),
-        error: function (xhr, status, err) {
-            console.error(this.props.url, status, err.toString());
-        }.bind(this)
-    });
+        $.ajax({
+            method: 'GET',
+            url: this.props.url,
+            dataType: 'json',
+            cache: false,
+            success: (data) => {
+                this.setState({data: data});
+                this.tasksFilter(this.state.filterValue);
+            },
+            error: (xhr, status, err) => {
+                console.error(this.props.url, status, err.toString());
+            }
+        });
     }
-    handleDeleteTasks(taskID){
+
+    handleTaskDelete(taskID) {
         $.ajax({
             url: this.props.url + `/${taskID}`,
             method: 'DELETE',
-            success: function (data) {
-                console.log( data );
+            success: (data) => {
+                console.log(data);
                 this.loadTasksFromServer();
-            }.bind(this),
-            error: function (xhr, status, err) {
+            },
+            error: (xhr, status, err) => {
                 console.error(this.props.url, status, err.toString());
-            }.bind(this)
+            }
         });
     }
-    handleTaskSubmit(taskMessage){
+
+    handleTaskSubmit(taskMessage) {
         $.ajax({
             method: 'POST',
             url: this.props.url,
             dataType: 'json',
             data: taskMessage,
-            success: function (newComment) {
+            success: (newComment) => {
                 console.log(newComment.status);
                 let newComments = this.state.data.concat([newComment]);
-                this.setState({ data: newComments });
-            }.bind(this),
-            error: function (xhr, status, err) {
+                this.setState({data: newComments});
+            },
+            error: (xhr, status, err) => {
                 console.error(this.props.url, status, err.toString());
-            }.bind(this)
+            }
         });
     }
-    handleTaskComplete(completeId){
+
+    handleTaskComplete(completeId) {
         $.ajax({
             method: 'PUT',
             url: this.props.url + `/${completeId}`,
             dataType: 'json',
-            success: function (updatedComment) {
-                console.log(updatedComment);
-                console.log(this.state.value);
+            success: (updatedComment) => {
+                console.log(updatedComment.status);
                 this.loadTasksFromServer();
-            }.bind(this),
-            error: function (xhr, status, err) {
+            },
+            error: (xhr, status, err) => {
                 console.error(this.props.url, status, err.toString());
-            }.bind(this)
+            }
         });
     }
-    filterTasks(buttonValue) {
+
+    tasksFilter(buttonValue) {
         let completedTasks = $("ul").find("[data-completed=true]");
         let uncompletedTasks = $("ul").find("[data-completed=false]");
         switch (buttonValue) {
             case 'Active':
                 completedTasks.hide();
                 uncompletedTasks.show();
-                this.setState({filterValue:'Active'});
+                this.setState({filterValue: 'Active'});
                 break;
             case 'Completed':
                 uncompletedTasks.hide();
                 completedTasks.show();
-                this.setState({filterValue:'Completed'});
+                this.setState({filterValue: 'Completed'});
                 break;
             case 'All':
                 uncompletedTasks.show();
                 completedTasks.show();
-                this.setState({filterValue:'All'});
+                this.setState({filterValue: 'All'});
                 break;
         }
     }
 
     componentDidMount() {
-    this.loadTasksFromServer();
+        this.loadTasksFromServer();
     }
 
 
     render() {
         return (
-            <section className="sections main-section">
-                <TaskForm onTaskSubmit={this.handleTaskSubmit} />
-                <TaskList data={this.state.data} onCommentDelete={this.handleDeleteTasks}
+            <section className="main-section">
+                <TaskForm onTaskSubmit={this.handleTaskSubmit}/>
+                <TaskList data={this.state.data} onTaskDelete={this.handleTaskDelete}
                           onTaskComplete={this.handleTaskComplete}/>
-                <TaskFilterSection onFilterTasks={this.filterTasks}/>
+                <TaskFilterSection onFilterTasks={this.tasksFilter}/>
             </section>
         )
     }
@@ -123,7 +132,6 @@ class TaskBox extends React.Component{
 TaskBox.propTypes = {
     url: React.PropTypes.string.isRequired
 };
-
 
 ReactDOM.render(<TaskBox url="/api/tasks"/>,
     document.getElementById('container'));

@@ -4,7 +4,6 @@ let path = require('path');
 const fs = require('fs');
 const Hapi = require('hapi');
 const Good = require('good');
-const Boom = require('boom');
 const Sqlite3 = require('sqlite3');
 const routes = require('./routes');
 
@@ -17,14 +16,14 @@ const db = new Sqlite3.Database(DB_FILE);
 const server = new Hapi.Server();
 
 server.connection({port: 9000});
+//Bind server to the DB
+server.bind({db: db});
 
-server.bind({ db: db });
-
-// Registering the Good plugin
+// Registering the Good plugin for info on the console
 server.register([{
     register: Good,
-    options : {
-        reporters : {
+    options: {
+        reporters: {
             console: [
                 {
                     module: 'good-squeeze',
@@ -39,7 +38,7 @@ server.register([{
                 }, 'stdout']
         }
     }
-}],(err) => {
+}], (err) => {
 
     if (err) {
         throw err;

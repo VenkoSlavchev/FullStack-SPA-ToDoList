@@ -1,5 +1,5 @@
 'use strict';
-
+//Execute query for getting all tasks
 exports.getTasks = function (request, reply) {
     const query = 'SELECT * FROM tasks';
 
@@ -8,11 +8,10 @@ exports.getTasks = function (request, reply) {
         if (err) {
             throw err;
         }
-
         reply(results);
     });
 };
-
+//Execute query to create a task
 exports.createTask = function (request, reply) {
 
     const query = 'INSERT INTO tasks (message,completed) VALUES (?, ?)';
@@ -21,8 +20,7 @@ exports.createTask = function (request, reply) {
             request.payload.message,
             'false'
         ],
-        function(err) {
-
+        (err) => {
             if (err) {
                 throw err;
             }
@@ -35,7 +33,7 @@ exports.createTask = function (request, reply) {
             }).code(201);
         });
 };
-
+//Execute query to delete a task
 exports.deleteTask = function (request, reply) {
 
     const query = 'DELETE FROM tasks WHERE id = ?';
@@ -52,7 +50,7 @@ exports.deleteTask = function (request, reply) {
             });
         });
 };
-
+//Execute query to make task's property completed equal to true
 exports.completeTask = function (request, reply) {
 
     const query = 'UPDATE tasks SET completed = ? WHERE id = ?';
@@ -68,8 +66,6 @@ exports.completeTask = function (request, reply) {
             }
 
             reply({
-                id: request.params.taskId,
-                completed:'true',
                 status: `Task with id ${request.params.taskId} was completed`
             });
         });

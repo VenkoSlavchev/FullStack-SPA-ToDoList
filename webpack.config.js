@@ -2,22 +2,22 @@
 module.exports = {
     entry: ['./app.js'],
     output: {
-        filename : 'bundle.js'
+        filename: 'bundle.js'
     },
     module: {
         preLoaders: [
-        {
-            test: /\.js$/,
-            exclude: /node_modules/,
-            loader: 'jshint-loader'
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'jshint-loader'
 
-        },
-        {
-            test: /\.jsx?$/,
-            exclude: /node_modules/,
-            loader: 'eslint-loader'
-        }
-    ],
+            },
+            {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                loader: 'eslint-loader'
+            }
+        ],
         loaders: [
             {
                 test: /\.jsx?$/,
@@ -30,8 +30,8 @@ module.exports = {
         ]
     },
     watch: true,
-    resolve:{
-        extensions: ['','.js','.jsx']
+    resolve: {
+        extensions: ['', '.js', '.jsx']
     },
     devtool: 'eval-source-map',
     devServer: {
@@ -41,7 +41,7 @@ module.exports = {
         stats: 'normal',
         host: process.env.HOST || 'localhost',
         port: process.env.PORT || 3000,
-        proxy:{
+        proxy: {
             '/api/*': {
                 target: 'http://localhost:9000/',
                 secure: false
